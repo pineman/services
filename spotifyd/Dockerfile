@@ -12,7 +12,8 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /spotifyd
 RUN apt-get update && \
-  apt-get install -y libasound2
+  apt-get install -y libasound2 alsa-utils
 COPY --from=builder /spotifyd .
 VOLUME /spotifyd/cache
-ENTRYPOINT ["/spotifyd/spotifyd", "--no-daemon", "-c", "/spotifyd/cache", "-d", "pinecone"]
+COPY spotifyd.sh .
+ENTRYPOINT ["/spotifyd/spotifyd.sh"]

@@ -2,19 +2,34 @@ services:
   spigot:
     build: spigot
     image: docker.io/pineman/spigot:1.16.5
-    container_name: spigot
     ports:
     - "25565:25565"
     volumes:
     - spigot:/spigot
     restart: unless-stopped
+
   spotifyd:
     build: spotifyd
     image: docker.io/pineman/spotifyd:0.3.2
-    container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"
     command: -u 'joao.castropinheiro@gmail.com' -P 'echo $SPOTIFYD_PWD'
+    restart: unless-stopped
+
+  homepage_http:
+    image: docker.io/pineman/homepage-http:1.0.0
+    environment:
+      HP_DB_HOST: "services_homepage_db_1"
+    ports:
+    - "80:80"
+    restart: unless-stopped
+
+  homepage_db:
+    image: docker.io/pineman/homepage-db:1.0.0
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+    - "5432:5432"
     restart: unless-stopped
 
 volumes:

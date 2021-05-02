@@ -1,7 +1,7 @@
 services:
   spigot:
     build: spigot
-    image: docker.io/pineman/spigot:1.16.5
+    image: registry.gitlab.com/pineman/images/spigot:1.16.5-2
     container_name: spigot
     ports:
     - "25565:25565"
@@ -11,7 +11,7 @@ services:
 
   spotifyd:
     build: spotifyd
-    image: docker.io/pineman/spotifyd:0.3.2
+    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-2
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   homepage_http:
-    image: docker.io/pineman/homepage-http:1.0.0
+    image: registry.gitlab.com/pineman/images/homepage-http:1.0.0-2
     container_name: hp_http
     environment:
       HP_DB_HOST: "services_homepage_db_1"
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
 
   homepage_db:
-    image: docker.io/pineman/homepage-db:1.0.0
+    image: registry.gitlab.com/pineman/images/homepage-db:1.0.0-2
     container_name: hp_db
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust

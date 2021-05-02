@@ -1,7 +1,7 @@
 services:
   spigot:
     build: spigot
-    image: registry.gitlab.com/pineman/images/spigot:1.16.5-2
+    image: registry.gitlab.com/pineman/images/spigot:1.16.5-3
     container_name: spigot
     ports:
     - "25565:25565"
@@ -11,7 +11,7 @@ services:
 
   spotifyd:
     build: spotifyd
-    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-2
+    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-3
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"

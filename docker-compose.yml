@@ -36,7 +36,21 @@ services:
     - "5432:5432"
     restart: unless-stopped
 
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    volumes:
+      - downloads:/downloads
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    restart: unless-stopped
+
 volumes:
   spigot:
     external:
       name: spigot
+  downloads:
+    external:
+      name: downloads

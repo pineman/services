@@ -36,6 +36,13 @@ services:
     - "5432:5432"
     restart: unless-stopped
 
+  abra:
+    image: registry.gitlab.com/pineman/images/abra:1.0.0-1
+    container_name: abra
+    ports:
+    - "2272:2272"
+    restart: unless-stopped
+
   transmission:
     image: ghcr.io/linuxserver/transmission
     container_name: transmission

@@ -39,18 +39,21 @@ services:
   transmission:
     image: ghcr.io/linuxserver/transmission
     container_name: transmission
-    volumes:
-      - downloads:/downloads
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
     ports:
       - "9091:9091"
       - "51413:51413"
       - "51413:51413/udp"
+    volumes:
+      - transmission-config:/config
+      - /home/pineman/Downloads:/downloads
     restart: unless-stopped
 
 volumes:
   spigot:
-    external:
-      name: spigot
-  downloads:
-    external:
-      name: downloads
+    name: spigot
+  transmission-config:
+    name: transmission-config

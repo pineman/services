@@ -1,7 +1,7 @@
 services:
   spigot:
     build: spigot
-    image: registry.gitlab.com/pineman/images/spigot:1.17-1
+    image: registry.gitlab.com/pineman/images/spigot:1.17-2
     container_name: spigot
     ports:
     - "25565:25565"

@@ -1,4 +1,18 @@
 services:
+  homepage:
+    image: registry.gitlab.com/pineman/images/homepage:1.0.0-1
+    container_name: homepage
+    ports:
+    - "80:80"
+    restart: unless-stopped
+
+  abra:
+    image: registry.gitlab.com/pineman/images/abra:1.0.0-1
+    container_name: abra
+    ports:
+    - "2272:2272"
+    restart: unless-stopped
+
   spigot:
     build: spigot
     image: registry.gitlab.com/pineman/images/spigot:1.17-2
@@ -16,31 +30,6 @@ services:
     devices:
     - "/dev/snd:/dev/snd"
     command: -u 'joao.castropinheiro@gmail.com' -P 'echo $SPOTIFYD_PWD'
-    restart: unless-stopped
-
-  homepage_http:
-    image: registry.gitlab.com/pineman/images/homepage-http:1.0.0-2
-    container_name: hp_http
-    environment:
-      HP_DB_HOST: "services_homepage_db_1"
-    ports:
-    - "80:80"
-    restart: unless-stopped
-
-  homepage_db:
-    image: registry.gitlab.com/pineman/images/homepage-db:1.0.0-2
-    container_name: hp_db
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-    - "5432:5432"
-    restart: unless-stopped
-
-  abra:
-    image: registry.gitlab.com/pineman/images/abra:1.0.0-1
-    container_name: abra
-    ports:
-    - "2272:2272"
     restart: unless-stopped
 
   transmission:

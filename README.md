@@ -1,10 +1,12 @@
 Migrate pinecone (and homelab in general) to kubernetes.
 
 ## TODO
+1. Spigot: run in screen, attach from outside docker to run 'save-off' for backups.
+1. `init: true` on all services?
 1. Unify storage service
    * ~/Documents
    * PVCs for pods
-2. Keep a KVM host for experiments somehow
+1. Keep a KVM host for experiments somehow
    * need storage for images
 
 ## Notes

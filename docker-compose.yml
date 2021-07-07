@@ -48,6 +48,22 @@ services:
       - /home/pineman/Downloads:/downloads
     restart: unless-stopped
 
+  # run node_exporter on bare metal
+  # TODO: configs
+  prometheus:
+    image: docker.io/prom/prometheus:v2.28.1
+    container_name: prometheus
+    ports:
+    - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: docker.io/grafana/grafana:8.0.4-ubuntu
+    container_name: grafana
+    ports:
+    - "3000:3000"
+    restart: unless-stopped
+
 volumes:
   spigot:
     name: spigot

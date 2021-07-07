@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
 
   transmission:
-    image: ghcr.io/linuxserver/transmission
+    image: ghcr.io/linuxserver/transmission:version-3.00-r2
     container_name: transmission
     environment:
       - PUID=1000

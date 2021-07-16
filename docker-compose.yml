@@ -1,6 +1,6 @@
 services:
   homepage:
-    image: registry.gitlab.com/pineman/images/homepage:1.0.0-1
+    image: registry.gitlab.com/pineman/images/homepage:1.0.0-2
     container_name: homepage
     ports:
     - "80:80"
@@ -13,24 +13,38 @@ services:
     - "2272:2272"
     restart: unless-stopped
 
-  spigot:
-    build: spigot
-    image: registry.gitlab.com/pineman/images/spigot:1.17.1-1
+  spigot: &spigot
+    build:
+      context: spigot
+      cache_from: ["registry.gitlab.com/pineman/images/spigot:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/images/spigot:1.17.1-2
     container_name: spigot
     ports:
     - "25565:25565"
     volumes:
     - spigot:/spigot
     restart: unless-stopped
+  spigot-latest:
+    <<: *spigot
+    image: registry.gitlab.com/pineman/images/spigot:latest
+    profiles: ["push"]
 
-  spotifyd:
-    build: spotifyd
-    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-4
+  spotifyd: &spotifyd
+    build:
+      context: spotifyd
+      cache_from: ["registry.gitlab.com/pineman/images/spotifyd:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-5
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"
     command: -u 'joao.castropinheiro@gmail.com' -P 'echo $SPOTIFYD_PWD'
     restart: unless-stopped
+  spotifyd-latest:
+    <<: *spotifyd
+    image: registry.gitlab.com/pineman/images/spotifyd:latest
+    profiles: ["push"]
 
   transmission:
     image: ghcr.io/linuxserver/transmission:version-3.00-r2
@@ -48,7 +62,7 @@ services:
       - /home/pineman/Downloads:/downloads
     restart: unless-stopped
 
-  # run node_exporter on bare metal
+  # TODO: node_exporter
   # TODO: configs
   prometheus:
     image: docker.io/prom/prometheus:v2.28.1

@@ -11,5 +11,6 @@ COPY --from=builder /spigot/spigot-1.17.1.jar /
 RUN install_clean openjdk-16-jre-headless
 VOLUME /spigot
 WORKDIR /spigot
-COPY server.properties eula.txt whitelist.json /spigot/
+COPY server.properties eula.txt whitelist.json .
+COPY plugins plugins
 ENTRYPOINT ["java", "-jar", "/spigot-1.17.1.jar"]

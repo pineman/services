@@ -3,14 +3,14 @@ services:
     image: registry.gitlab.com/pineman/images/homepage:1.0.0-2
     container_name: homepage
     ports:
-    - "80:80"
+    - "127.0.0.1:80:80"
     restart: unless-stopped
 
   abra:
     image: registry.gitlab.com/pineman/images/abra:1.0.0-1
     container_name: abra
     ports:
-    - "2272:2272"
+    - "127.0.0.1:2272:2272"
     restart: unless-stopped
 
   spigot: &spigot
@@ -21,7 +21,7 @@ services:
     image: registry.gitlab.com/pineman/images/spigot:1.17.1-2
     container_name: spigot
     ports:
-    - "25565:25565"
+    - "127.0.0.1:25565:25565"
     volumes:
     - spigot:/spigot
     restart: unless-stopped
@@ -54,9 +54,9 @@ services:
       - PGID=1000
       - TZ=Europe/Lisbon
     ports:
-      - "9091:9091"
-      - "51413:51413"
-      - "51413:51413/udp"
+      - "127.0.0.1:9091:9091"
+      - "127.0.0.1:51413:51413"
+      - "127.0.0.1:51413:51413/udp"
     volumes:
       - transmission-config:/config
       - /home/pineman/Downloads:/downloads
@@ -68,14 +68,14 @@ services:
     image: docker.io/prom/prometheus:v2.28.1
     container_name: prometheus
     ports:
-    - "9090:9090"
+    - "127.0.0.1:9090:9090"
     restart: unless-stopped
 
   grafana:
     image: docker.io/grafana/grafana:8.0.4-ubuntu
     container_name: grafana
     ports:
-    - "3000:3000"
+    - "127.0.0.1:3000:3000"
     restart: unless-stopped
 
 volumes:

@@ -35,7 +35,7 @@ services:
       context: spotifyd
       cache_from: ["registry.gitlab.com/pineman/images/spotifyd:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-5
+    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-6
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"

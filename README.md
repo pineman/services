@@ -1,7 +1,8 @@
-Migrate pinecone (and homelab in general) to kubernetes.
+Migrate pinecone (and homelab in general) from docker-compose to kubernetes.
 
 ## TODO
-1. Spigot: run in screen, attach from outside docker to run 'save-off' for backups - copiar esquema dos scripts do minecraft/spigot do arch.
+1. Merge with `images` repo on gitlab
+1. CI/CD - build images and kubectl apply
 1. `init: true` on all services?
 1. Unify storage service
    * ~/Documents

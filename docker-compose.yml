@@ -13,21 +13,21 @@ services:
     - "2272:2272"
     restart: unless-stopped
 
-  spigot: &spigot
+  paper: &paper
     build:
-      context: spigot
-      cache_from: ["registry.gitlab.com/pineman/images/spigot:latest"]
+      context: paper
+      cache_from: ["registry.gitlab.com/pineman/images/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/images/spigot:1.17.1-3
-    container_name: spigot
+    image: registry.gitlab.com/pineman/images/paper:1.17.1-1
+    container_name: paper
     ports:
     - "25565:25565"
     volumes:
-    - spigot:/spigot
+    - paper:/paper
     restart: unless-stopped
-  spigot-latest:
-    <<: *spigot
-    image: registry.gitlab.com/pineman/images/spigot:latest
+  paper-latest:
+    <<: *paper
+    image: registry.gitlab.com/pineman/images/paper:latest
     profiles: ["push"]
 
   spotifyd: &spotifyd
@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  spigot:
-    name: spigot
+  paper:
+    name: paper
   transmission-config:
     name: transmission-config

@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/pineman/images/base:1.1.0
+FROM registry.gitlab.com/pineman/services/base:1.1.0
 ARG DEBIAN_FRONTEND=noninteractive
 RUN install_clean openjdk-16-jre-headless tmux
 RUN curl -O https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/110/downloads/paper-1.17.1-110.jar

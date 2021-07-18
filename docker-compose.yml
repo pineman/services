@@ -1,13 +1,13 @@
 services:
   homepage:
-    image: registry.gitlab.com/pineman/images/homepage:1.0.0-2
+    image: registry.gitlab.com/pineman/services/homepage:1.0.0-2
     container_name: homepage
     ports:
     - "80:80"
     restart: unless-stopped
 
   abra:
-    image: registry.gitlab.com/pineman/images/abra:1.0.0-1
+    image: registry.gitlab.com/pineman/services/abra:1.0.0-1
     container_name: abra
     ports:
     - "2272:2272"
@@ -16,9 +16,9 @@ services:
   paper: &paper
     build:
       context: paper
-      cache_from: ["registry.gitlab.com/pineman/images/paper:latest"]
+      cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/images/paper:1.17.1-1
+    image: registry.gitlab.com/pineman/services/paper:1.17.1-1
     container_name: paper
     ports:
     - "25565:25565"
@@ -27,15 +27,15 @@ services:
     restart: unless-stopped
   paper-latest:
     <<: *paper
-    image: registry.gitlab.com/pineman/images/paper:latest
+    image: registry.gitlab.com/pineman/services/paper:latest
     profiles: ["push"]
 
   spotifyd: &spotifyd
     build:
       context: spotifyd
-      cache_from: ["registry.gitlab.com/pineman/images/spotifyd:latest"]
+      cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/images/spotifyd:0.3.2-6
+    image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-6
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"
@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
   spotifyd-latest:
     <<: *spotifyd
-    image: registry.gitlab.com/pineman/images/spotifyd:latest
+    image: registry.gitlab.com/pineman/services/spotifyd:latest
     profiles: ["push"]
 
   transmission:

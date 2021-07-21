@@ -18,7 +18,7 @@ services:
       context: paper
       cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/paper:1.17.1-1
+    image: registry.gitlab.com/pineman/services/paper:1.17.1-2
     container_name: paper
     ports:
     - "25565:25565"

@@ -6,5 +6,6 @@ COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 VOLUME /paper
 WORKDIR /paper
-COPY server.properties eula.txt whitelist.json .
+COPY server.properties eula.txt whitelist.json ops.json server-icon.png .
 COPY logs logs
+COPY plugins plugins

@@ -35,11 +35,11 @@ services:
       context: spotifyd
       cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-6
+    image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
     container_name: spotifyd
     devices:
     - "/dev/snd:/dev/snd"
-    command: -u 'joao.castropinheiro@gmail.com' -P 'echo $SPOTIFYD_PWD'
+    command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
     restart: unless-stopped
   spotifyd-latest:
     <<: *spotifyd

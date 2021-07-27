@@ -13,5 +13,5 @@ WORKDIR /spotifyd
 RUN install_clean libasound2 alsa-utils
 COPY --from=builder /spotifyd .
 VOLUME /spotifyd/cache
-COPY spotifyd.sh .
+COPY spotifyd.sh spotifyd_pwd.txt .
 ENTRYPOINT ["/spotifyd/spotifyd.sh"]

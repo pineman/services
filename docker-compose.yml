@@ -6,6 +6,13 @@ services:
     - "80:80"
     restart: unless-stopped
 
+  filestash:
+    image: machines/filestash
+    container_name: filestash
+    ports:
+    - "8334:8334"
+    restart: unless-stopped
+
   abra:
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1
     container_name: abra

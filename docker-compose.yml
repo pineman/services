@@ -23,7 +23,7 @@ services:
     ports:
     - "25565:25565"
     volumes:
-    - paper:/paper
+    - /home/pineman/paper:/paper
     restart: unless-stopped
   paper-latest:
     <<: *paper
@@ -79,7 +79,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  paper:
-    name: paper
   transmission-config:
     name: transmission-config

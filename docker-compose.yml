@@ -1,17 +1,49 @@
 services:
+  ingress:
+    image: docker.io/traefik:2.5.2
+    container_name: ingress
+    ports:
+    - "80:80"
+    - "443:443"
+    - "8080:8080"
+    restart: unless-stopped
+    command:
+    - "--api.insecure=true"
+    - "--providers.docker=true"
+    - "--entrypoints.http.address=:80"
+    - "--entrypoints.https.address=:443"
+    - "--entrypoints.http.http.redirections.entrypoint.to=https"
+    - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+    - "--certificatesresolvers.pineman.acme.httpchallenge=true"
+    - "--certificatesresolvers.pineman.acme.httpchallenge.entrypoint=http"
+    - "--certificatesresolvers.pineman.acme.email=joao.castropinheiro@gmail.com"
+    - "--certificatesresolvers.pineman.acme.storage=acme.json"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
   homepage:
     image: registry.gitlab.com/pineman/services/homepage:1.0.0-2
     container_name: homepage
     ports:
-    - "80:80"
+    - "8081:80"
     restart: unless-stopped
+    labels:
+    - "traefik.http.routers.homepage.rule=Host(`www.pineman.eu`) || Host(`pineman.eu`)"
+    - "traefik.http.routers.homepage.entrypoints=https"
+    - "traefik.http.routers.homepage.tls=true"
+    - "traefik.http.routers.homepage.tls.certresolver=pineman"
 
   filestash:
-    image: machines/filestash
+    image: docker.io/machines/filestash:c2c56ba
     container_name: filestash
     ports:
     - "8334:8334"
     restart: unless-stopped
+    labels:
+    - "traefik.http.routers.filestash.rule=Host(`fs.pineman.eu`)"
+    - "traefik.http.routers.filestash.entrypoints=https"
+    - "traefik.http.routers.filestash.tls=true"
+    - "traefik.http.routers.filestash.tls.certresolver=pineman"
 
   abra:
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1
@@ -19,6 +51,11 @@ services:
     ports:
     - "2272:2272"
     restart: unless-stopped
+    labels:
+    - "traefik.http.routers.abra.rule=Host(`abra.pineman.eu`)"
+    - "traefik.http.routers.abra.entrypoints=https"
+    - "traefik.http.routers.abra.tls=true"
+    - "traefik.http.routers.abra.tls.certresolver=pineman"
 
   paper: &paper
     build:

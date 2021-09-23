@@ -99,24 +99,24 @@ services:
     image: registry.gitlab.com/pineman/services/paper:latest
     profiles: ["push"]
 
-  spotifyd: &spotifyd
-    build:
-      context: spotifyd
-      cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
-      args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
-    container_name: spotifyd
-    init: true
-    logging:
-      driver: journald
-    devices:
-    - "/dev/snd:/dev/snd"
-    command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
-    restart: unless-stopped
-  spotifyd-latest:
-    <<: *spotifyd
-    image: registry.gitlab.com/pineman/services/spotifyd:latest
-    profiles: ["push"]
+  #spotifyd: &spotifyd
+  #  build:
+  #    context: spotifyd
+  #    cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
+  #    args: ["BUILDKIT_INLINE_CACHE=1"]
+  #  image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
+  #  container_name: spotifyd
+  #  init: true
+  #  logging:
+  #    driver: journald
+  #  devices:
+  #  - "/dev/snd:/dev/snd"
+  #  command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
+  #  restart: unless-stopped
+  #spotifyd-latest:
+  #  <<: *spotifyd
+  #  image: registry.gitlab.com/pineman/services/spotifyd:latest
+  #  profiles: ["push"]
 
   transmission:
     image: ghcr.io/linuxserver/transmission:version-3.00-r2

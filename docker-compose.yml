@@ -59,7 +59,7 @@ services:
       context: public
       cache_from: ["registry.gitlab.com/pineman/services/public:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/public:1.0.0
+    image: registry.gitlab.com/pineman/services/public:1.1.0
     container_name: public
     init: true
     logging:

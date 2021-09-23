@@ -3,6 +3,8 @@ services:
     image: docker.io/traefik:2.5.2
     container_name: ingress
     init: true
+    logging:
+      driver: journald
     ports:
     - "80:80"
     - "443:443"
@@ -26,6 +28,8 @@ services:
     image: registry.gitlab.com/pineman/services/homepage:1.0.0-2
     container_name: homepage
     init: true
+    logging:
+      driver: journald
     ports:
     - "8081:80"
     restart: unless-stopped
@@ -39,6 +43,8 @@ services:
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1
     container_name: abra
     init: true
+    logging:
+      driver: journald
     ports:
     - "2272:2272"
     restart: unless-stopped
@@ -56,6 +62,8 @@ services:
     image: registry.gitlab.com/pineman/services/public:1.0.0
     container_name: public
     init: true
+    logging:
+      driver: journald
     ports:
     - "8035:8035"
     restart: unless-stopped
@@ -79,6 +87,8 @@ services:
     image: registry.gitlab.com/pineman/services/paper:1.17.1-2
     container_name: paper
     init: true
+    logging:
+      driver: journald
     ports:
     - "25565:25565"
     volumes:
@@ -97,6 +107,8 @@ services:
     image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
     container_name: spotifyd
     init: true
+    logging:
+      driver: journald
     devices:
     - "/dev/snd:/dev/snd"
     command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
@@ -110,6 +122,8 @@ services:
     image: ghcr.io/linuxserver/transmission:version-3.00-r2
     container_name: transmission
     init: true
+    logging:
+      driver: journald
     environment:
       - PUID=1000
       - PGID=1000
@@ -129,6 +143,8 @@ services:
     image: docker.io/prom/prometheus:v2.28.1
     container_name: prometheus
     init: true
+    logging:
+      driver: journald
     ports:
     - "9090:9090"
     restart: unless-stopped
@@ -137,6 +153,8 @@ services:
     image: docker.io/grafana/grafana:8.0.4-ubuntu
     container_name: grafana
     init: true
+    logging:
+      driver: journald
     ports:
     - "3000:3000"
     restart: unless-stopped

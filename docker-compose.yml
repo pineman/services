@@ -25,7 +25,7 @@ services:
     - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   homepage:
-    image: registry.gitlab.com/pineman/services/homepage:1.0.0-2
+    image: registry.gitlab.com/pineman/services/homepage:1.0.1
     container_name: homepage
     init: true
     logging:

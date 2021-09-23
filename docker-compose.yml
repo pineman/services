@@ -2,6 +2,7 @@ services:
   ingress:
     image: docker.io/traefik:2.5.2
     container_name: ingress
+    init: true
     ports:
     - "80:80"
     - "443:443"
@@ -24,6 +25,7 @@ services:
   homepage:
     image: registry.gitlab.com/pineman/services/homepage:1.0.0-2
     container_name: homepage
+    init: true
     ports:
     - "8081:80"
     restart: unless-stopped
@@ -33,21 +35,10 @@ services:
     - "traefik.http.routers.homepage.tls=true"
     - "traefik.http.routers.homepage.tls.certresolver=pineman"
 
-  filestash:
-    image: docker.io/machines/filestash:c2c56ba
-    container_name: filestash
-    ports:
-    - "8334:8334"
-    restart: unless-stopped
-    labels:
-    - "traefik.http.routers.filestash.rule=Host(`fs.pineman.eu`)"
-    - "traefik.http.routers.filestash.entrypoints=https"
-    - "traefik.http.routers.filestash.tls=true"
-    - "traefik.http.routers.filestash.tls.certresolver=pineman"
-
   abra:
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1
     container_name: abra
+    init: true
     ports:
     - "2272:2272"
     restart: unless-stopped
@@ -57,6 +48,29 @@ services:
     - "traefik.http.routers.abra.tls=true"
     - "traefik.http.routers.abra.tls.certresolver=pineman"
 
+  public: &public
+    build:
+      context: public
+      cache_from: ["registry.gitlab.com/pineman/services/public:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/services/public:1.0.0
+    container_name: public
+    init: true
+    ports:
+    - "8035:8035"
+    restart: unless-stopped
+    volumes:
+    - /home/pineman/Documents/Pictures/Photos:/public
+    labels:
+    - "traefik.http.routers.public.rule=Host(`public.pineman.eu`)"
+    - "traefik.http.routers.public.entrypoints=https"
+    - "traefik.http.routers.public.tls=true"
+    - "traefik.http.routers.public.tls.certresolver=pineman"
+  public-latest:
+    <<: *public
+    image: registry.gitlab.com/pineman/services/public:latest
+    profiles: ["push"]
+
   paper: &paper
     build:
       context: paper
@@ -64,6 +78,7 @@ services:
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/paper:1.17.1-2
     container_name: paper
+    init: true
     ports:
     - "25565:25565"
     volumes:
@@ -81,6 +96,7 @@ services:
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
     container_name: spotifyd
+    init: true
     devices:
     - "/dev/snd:/dev/snd"
     command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
@@ -93,6 +109,7 @@ services:
   transmission:
     image: ghcr.io/linuxserver/transmission:version-3.00-r2
     container_name: transmission
+    init: true
     environment:
       - PUID=1000
       - PGID=1000
@@ -111,6 +128,7 @@ services:
   prometheus:
     image: docker.io/prom/prometheus:v2.28.1
     container_name: prometheus
+    init: true
     ports:
     - "9090:9090"
     restart: unless-stopped
@@ -118,6 +136,7 @@ services:
   grafana:
     image: docker.io/grafana/grafana:8.0.4-ubuntu
     container_name: grafana
+    init: true
     ports:
     - "3000:3000"
     restart: unless-stopped

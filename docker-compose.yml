@@ -1,15 +1,20 @@
+x-common: &common
+  restart: unless-stopped
+  init: true
+  logging:
+    driver: journald
+    options:
+      tag: "{{.Name}}@{{.ImageID}}"
+
 services:
   ingress:
+    <<: *common
     image: docker.io/traefik:2.5.2
     container_name: ingress
-    init: true
-    logging:
-      driver: journald
     ports:
     - "80:80"
     - "443:443"
     - "8080:8080"
-    restart: unless-stopped
     command:
     - "--api.insecure=true"
     - "--providers.docker=true"
@@ -25,14 +30,11 @@ services:
     - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   homepage:
-    image: registry.gitlab.com/pineman/services/homepage:1.0.1
+    <<: *common
+    image: registry.gitlab.com/pineman/services/homepage:1.0.2
     container_name: homepage
-    init: true
-    logging:
-      driver: journald
     ports:
     - "8081:80"
-    restart: unless-stopped
     labels:
     - "traefik.http.routers.homepage.rule=Host(`www.pineman.eu`) || Host(`pineman.eu`)"
     - "traefik.http.routers.homepage.entrypoints=https"
@@ -40,33 +42,27 @@ services:
     - "traefik.http.routers.homepage.tls.certresolver=pineman"
 
   abra:
+    <<: *common
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1
     container_name: abra
-    init: true
-    logging:
-      driver: journald
     ports:
     - "2272:2272"
-    restart: unless-stopped
     labels:
-    - "traefik.http.routers.abra.rule=Host(`abra.pineman.eu`)"
+    - "traefik.http.routers.abra.rule=Host(`abraa.pineman.eu`)"
     - "traefik.http.routers.abra.entrypoints=https"
     - "traefik.http.routers.abra.tls=true"
     - "traefik.http.routers.abra.tls.certresolver=pineman"
 
   public: &public
+    <<: *common
     build:
       context: public
       cache_from: ["registry.gitlab.com/pineman/services/public:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/public:1.1.0
     container_name: public
-    init: true
-    logging:
-      driver: journald
     ports:
     - "8035:8035"
-    restart: unless-stopped
     volumes:
     - /home/pineman/Documents/Pictures/Photos:/public
     labels:
@@ -80,50 +76,42 @@ services:
     profiles: ["push"]
 
   paper: &paper
+    <<: *common
     build:
       context: paper
       cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/paper:1.17.1-2
     container_name: paper
-    init: true
-    logging:
-      driver: journald
     ports:
     - "25565:25565"
     volumes:
     - /home/pineman/paper:/paper
-    restart: unless-stopped
   paper-latest:
     <<: *paper
     image: registry.gitlab.com/pineman/services/paper:latest
     profiles: ["push"]
 
   #spotifyd: &spotifyd
+  #  <<: *common
   #  build:
   #    context: spotifyd
   #    cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
   #    args: ["BUILDKIT_INLINE_CACHE=1"]
   #  image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
   #  container_name: spotifyd
-  #  init: true
-  #  logging:
-  #    driver: journald
   #  devices:
   #  - "/dev/snd:/dev/snd"
   #  command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
-  #  restart: unless-stopped
   #spotifyd-latest:
   #  <<: *spotifyd
   #  image: registry.gitlab.com/pineman/services/spotifyd:latest
   #  profiles: ["push"]
 
   transmission:
+    <<: *common
     image: ghcr.io/linuxserver/transmission:version-3.00-r2
     container_name: transmission
-    init: true
-    logging:
-      driver: journald
     environment:
       - PUID=1000
       - PGID=1000
@@ -135,29 +123,22 @@ services:
     volumes:
       - transmission-config:/config
       - /home/pineman/Downloads:/downloads
-    restart: unless-stopped
 
   # TODO: node_exporter
   # TODO: configs
   prometheus:
+    <<: *common
     image: docker.io/prom/prometheus:v2.28.1
     container_name: prometheus
-    init: true
-    logging:
-      driver: journald
     ports:
     - "9090:9090"
-    restart: unless-stopped
 
   grafana:
+    <<: *common
     image: docker.io/grafana/grafana:8.0.4-ubuntu
     container_name: grafana
-    init: true
-    logging:
-      driver: journald
     ports:
     - "3000:3000"
-    restart: unless-stopped
 
 volumes:
   transmission-config:

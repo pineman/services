@@ -18,6 +18,7 @@ services:
     command:
     - "--api.insecure=true"
     - "--providers.docker=true"
+    - "--accesslog=true"
     - "--entrypoints.http.address=:80"
     - "--entrypoints.https.address=:443"
     - "--entrypoints.http.http.redirections.entrypoint.to=https"
@@ -25,9 +26,10 @@ services:
     - "--certificatesresolvers.pineman.acme.httpchallenge=true"
     - "--certificatesresolvers.pineman.acme.httpchallenge.entrypoint=http"
     - "--certificatesresolvers.pineman.acme.email=joao.castropinheiro@gmail.com"
-    - "--certificatesresolvers.pineman.acme.storage=acme.json"
+    - "--certificatesresolvers.pineman.acme.storage=/acme/acme.json"
     volumes:
     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    - /home/pineman/acme:/acme
 
   homepage:
     <<: *common
@@ -48,7 +50,7 @@ services:
     ports:
     - "2272:2272"
     labels:
-    - "traefik.http.routers.abra.rule=Host(`abraa.pineman.eu`)"
+    - "traefik.http.routers.abra.rule=Host(`abra.pineman.eu`)"
     - "traefik.http.routers.abra.entrypoints=https"
     - "traefik.http.routers.abra.tls=true"
     - "traefik.http.routers.abra.tls.certresolver=pineman"
@@ -75,22 +77,22 @@ services:
     image: registry.gitlab.com/pineman/services/public:latest
     profiles: ["push"]
 
-  paper: &paper
-    <<: *common
-    build:
-      context: paper
-      cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
-      args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/paper:1.17.1-2
-    container_name: paper
-    ports:
-    - "25565:25565"
-    volumes:
-    - /home/pineman/paper:/paper
-  paper-latest:
-    <<: *paper
-    image: registry.gitlab.com/pineman/services/paper:latest
-    profiles: ["push"]
+  #paper: &paper
+  #  <<: *common
+  #  build:
+  #    context: paper
+  #    cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
+  #    args: ["BUILDKIT_INLINE_CACHE=1"]
+  #  image: registry.gitlab.com/pineman/services/paper:1.17.1-2
+  #  container_name: paper
+  #  ports:
+  #  - "25565:25565"
+  #  volumes:
+  #  - /home/pineman/paper:/paper
+  #paper-latest:
+  #  <<: *paper
+  #  image: registry.gitlab.com/pineman/services/paper:latest
+  #  profiles: ["push"]
 
   #spotifyd: &spotifyd
   #  <<: *common

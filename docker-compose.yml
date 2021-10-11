@@ -61,7 +61,7 @@ services:
       context: public
       cache_from: ["registry.gitlab.com/pineman/services/public:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/public:1.1.0
+    image: registry.gitlab.com/pineman/services/public:1.1.3
     container_name: public
     ports:
     - "8035:8035"

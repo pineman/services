@@ -8,4 +8,4 @@ Storage is zfs on baremetal by sshfs. k8s cluster would be on a VM (k3os).
 
 ## Notes
 Its a lot of unneeded work for the usecase, but side projects are for over-engineering and learning (:
-The main goal is to have everything as immutable as possible.
+The main goal is to have everything as immutable as possible and minimize state to make sporadic deployments trivial.

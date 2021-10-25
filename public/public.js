@@ -25,11 +25,15 @@ http.createServer((req, res) => {
 	zip.stderr.on('data', (stderr) => {
 		log(`stderr: ${stderr}`);
 	});
-	res.writeHead(200, {'Content-Type': 'application/zip'});
-	log('piping zip');
-	zip.stdout.pipe(res);
 	zip.on('close', (code) => {
 		log(`exit: ${code} ${code == 0 ? 'success' : ''}`);
 	});
+	req.on('close', () => {
+		zip.kill();
+		log('req close');
+	});
+	res.writeHead(200, {'Content-Type': 'application/zip'});
+	log('piping zip');
+	zip.stdout.pipe(res);
 }).listen(8035);
 

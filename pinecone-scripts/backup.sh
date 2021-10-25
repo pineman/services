@@ -11,6 +11,6 @@ sleep 10s
 zfs snapshot -r ssd@$new
 docker exec paper /usr/bin/tmux send-keys save-on C-m || true
 zfs send -R -I $last_recv ssd@$new | zfs recv -Fdu hdd
-b2-linux sync --noProgress --keepDays 30 --threads 8 --replaceNewer /home/pineman/Documents/.zfs/snapshot/$new b2://pineman-Documents
+b2-linux sync --noProgress --threads 8 --delete --replaceNewer /home/pineman/Documents/.zfs/snapshot/$new b2://pineman-Documents
 zpool status; zpool list
 mailx -s 'pinecone backup' joao.castropinheiro@gmail.com <<< $(journalctl _SYSTEMD_INVOCATION_ID=$(systemctl show -P InvocationID backup))

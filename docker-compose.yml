@@ -77,22 +77,22 @@ services:
     image: registry.gitlab.com/pineman/services/public:latest
     profiles: ["push"]
 
-  #paper: &paper
-  #  <<: *common
-  #  build:
-  #    context: paper
-  #    cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
-  #    args: ["BUILDKIT_INLINE_CACHE=1"]
-  #  image: registry.gitlab.com/pineman/services/paper:1.17.1-2
-  #  container_name: paper
-  #  ports:
-  #  - "25565:25565"
-  #  volumes:
-  #  - /home/pineman/paper:/paper
-  #paper-latest:
-  #  <<: *paper
-  #  image: registry.gitlab.com/pineman/services/paper:latest
-  #  profiles: ["push"]
+  paper: &paper
+    <<: *common
+    build:
+      context: paper
+      cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/services/paper:1.18-2
+    container_name: paper
+    ports:
+    - "25565:25565"
+    volumes:
+    - /home/pineman/paper:/paper
+  paper-latest:
+    <<: *paper
+    image: registry.gitlab.com/pineman/services/paper:latest
+    profiles: ["push"]
 
   #spotifyd: &spotifyd
   #  <<: *common

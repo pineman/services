@@ -3,7 +3,7 @@ locale:
   lang: en
   country: GB
 default:
-  autosort: false
+  autosort: true
   pattern: LEFT_TO_RIGHT_TOP_TO_BOTTOM
   categories:
   - AlphaAsc
@@ -19,7 +19,7 @@ default:
     breakables: true
   clicksort: true
 cleaningItem:
-  active: true
+  active: false
   durability: true
   openEvent: true
   item:

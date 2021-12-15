@@ -29,7 +29,7 @@ http.createServer((req, res) => {
 		log(`exit: ${code} ${code == 0 ? 'success' : ''}`);
 	});
 	req.on('close', () => {
-		zip.kill();
+		zip.kill('SIGKILL');
 		log('req close');
 	});
 	res.writeHead(200, {'Content-Type': 'application/zip'});

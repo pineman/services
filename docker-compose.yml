@@ -33,7 +33,7 @@ services:
 
   homepage:
     <<: *common
-    image: registry.gitlab.com/pineman/services/homepage:1.0.2
+    image: registry.gitlab.com/pineman/services/homepage:1.0.3
     container_name: homepage
     ports:
     - "8081:80"
@@ -61,7 +61,7 @@ services:
       context: public
       cache_from: ["registry.gitlab.com/pineman/services/public:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/public:1.1.5
+    image: registry.gitlab.com/pineman/services/public:1.1.6
     container_name: public
     ports:
     - "8035:8035"

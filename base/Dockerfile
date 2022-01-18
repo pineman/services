@@ -1,4 +1,4 @@
-FROM docker.io/ubuntu:20.04
+FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 ADD ./install_clean /usr/bin
 RUN install_clean locales apt-transport-https ca-certificates curl lsb-release gnupg

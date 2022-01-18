@@ -9,7 +9,7 @@ x-common: &common
 services:
   ingress:
     <<: *common
-    image: docker.io/traefik:2.5.2
+    image: traefik:2.5.6
     container_name: ingress
     ports:
     - "80:80"
@@ -128,19 +128,19 @@ services:
 
   # TODO: node_exporter
   # TODO: configs
-  prometheus:
-    <<: *common
-    image: docker.io/prom/prometheus:v2.28.1
-    container_name: prometheus
-    ports:
-    - "9090:9090"
+  #prometheus:
+  #  <<: *common
+  #  image: prom/prometheus:v2.28.1
+  #  container_name: prometheus
+  #  ports:
+  #  - "9090:9090"
 
-  grafana:
-    <<: *common
-    image: docker.io/grafana/grafana:8.0.4-ubuntu
-    container_name: grafana
-    ports:
-    - "3000:3000"
+  #grafana:
+  #  <<: *common
+  #  image: grafana/grafana:8.0.4-ubuntu
+  #  container_name: grafana
+  #  ports:
+  #  - "3000:3000"
 
 volumes:
   transmission-config:

@@ -43,6 +43,18 @@ services:
     - "traefik.http.routers.homepage.tls=true"
     - "traefik.http.routers.homepage.tls.certresolver=pineman"
 
+  ju:
+    <<: *common
+    image: registry.gitlab.com/pineman/services/ju:1.0.0
+    container_name: ju
+    ports:
+    - "8082:80"
+    labels:
+    - "traefik.http.routers.ju.rule=Host(`bebe.pineman.eu`)"
+    - "traefik.http.routers.ju.entrypoints=https"
+    - "traefik.http.routers.ju.tls=true"
+    - "traefik.http.routers.ju.tls.certresolver=pineman"
+
   abra:
     <<: *common
     image: registry.gitlab.com/pineman/services/abra:1.0.0-1

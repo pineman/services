@@ -15,5 +15,5 @@ mkfs.ext4 /dev/zvol/ssd/docker
 mount /dev/zvol/ssd/docker /var/lib/docker
 tail -1 /etc/mtab | tee -a /etc/fstab
 # TODO: install all system dependencies (libvirt, docker, etc.)
-yay -S prometheus-node-exporter --noconfirm --needed
-sudo systemctl enable --now prometheus-node-exporter.service
+yay -S prometheus prometheus-node-exporter --noconfirm --needed
+sudo systemctl enable --now prometheus prometheus-node-exporter

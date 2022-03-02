@@ -1,6 +1,7 @@
 x-common: &common
   restart: unless-stopped
   init: true
+  network_mode: host
   logging:
     driver: journald
     options:
@@ -45,7 +46,7 @@ services:
 
   ju:
     <<: *common
-    image: registry.gitlab.com/pineman/services/ju:1.0.0
+    image: registry.gitlab.com/pineman/services/ju:1.0.1
     container_name: ju
     ports:
     - "8082:80"
@@ -89,37 +90,21 @@ services:
     image: registry.gitlab.com/pineman/services/public:latest
     profiles: ["push"]
 
-  paper: &paper
-    <<: *common
-    build:
-      context: paper
-      cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
-      args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/paper:1.18.1-2
-    container_name: paper
-    ports:
-    - "25565:25565"
-    volumes:
-    - /home/pineman/paper:/paper
-  paper-latest:
-    <<: *paper
-    image: registry.gitlab.com/pineman/services/paper:latest
-    profiles: ["push"]
-
-  #spotifyd: &spotifyd
+  #paper: &paper
   #  <<: *common
   #  build:
-  #    context: spotifyd
-  #    cache_from: ["registry.gitlab.com/pineman/services/spotifyd:latest"]
+  #    context: paper
+  #    cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
   #    args: ["BUILDKIT_INLINE_CACHE=1"]
-  #  image: registry.gitlab.com/pineman/services/spotifyd:0.3.2-7
-  #  container_name: spotifyd
-  #  devices:
-  #  - "/dev/snd:/dev/snd"
-  #  command: -u 'joao.castropinheiro@gmail.com' -P 'cat /spotifyd/spotifyd_pwd.txt'
-  #spotifyd-latest:
-  #  <<: *spotifyd
-  #  image: registry.gitlab.com/pineman/services/spotifyd:latest
+  #  image: registry.gitlab.com/pineman/services/paper:1.18.1-2
+  #  container_name: paper
+  #  ports:
+  #  - "25565:25565"
+  #  volumes:
+  #  - /home/pineman/services/paper/server_mount:/paper
+  #paper-latest:
+  #  <<: *paper
+  #  image: registry.gitlab.com/pineman/services/paper:latest
   #  profiles: ["push"]
 
   transmission:
@@ -138,21 +123,12 @@ services:
       - transmission-config:/config
       - /home/pineman/Downloads:/downloads
 
-  # TODO: node_exporter
-  # TODO: configs
-  #prometheus:
-  #  <<: *common
-  #  image: prom/prometheus:v2.28.1
-  #  container_name: prometheus
-  #  ports:
-  #  - "9090:9090"
-
-  #grafana:
-  #  <<: *common
-  #  image: grafana/grafana:8.0.4-ubuntu
-  #  container_name: grafana
-  #  ports:
-  #  - "3000:3000"
+  grafana:
+    <<: *common
+    image: grafana/grafana:8.0.4-ubuntu
+    container_name: grafana
+    ports:
+    - "3000:3000"
 
 volumes:
   transmission-config:

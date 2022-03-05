@@ -1,7 +1,7 @@
 x-common: &common
   restart: unless-stopped
   init: true
-  network_mode: host
+  #network_mode: host
   logging:
     driver: journald
     options:

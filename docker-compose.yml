@@ -107,6 +107,23 @@ services:
   #  image: registry.gitlab.com/pineman/services/paper:latest
   #  profiles: ["push"]
 
+  factorio: &factorio
+    <<: *common
+    build:
+      context: factorio
+      cache_from: ["registry.gitlab.com/pineman/services/factorio:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/services/factorio:1.1.48-1
+    container_name: factorio
+    ports:
+    - "34197:34197/udp"
+    volumes:
+    - /home/pineman/services/factorio/server_mount:/factorio
+  factorio-latest:
+    <<: *factorio
+    image: registry.gitlab.com/pineman/services/factorio:latest
+    profiles: ["push"]
+
   transmission:
     <<: *common
     image: ghcr.io/linuxserver/transmission:version-3.00-r2

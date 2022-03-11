@@ -1,2 +1,2 @@
 #!/bin/bash
-factorio --server-settings server-settings.json --start-server fren.zip
+factorio --server-settings /root/.factorio/server-settings.json --start-server /root/.factorio/fren.zip

@@ -6,11 +6,9 @@ zpool create -o ashift=13 -o autotrim=on -o cachefile=/etc/zfs/zpool.cache "${co
 zpool create -o ashift=12 -o cachefile=none -o altroot=/hdd "${common_opts[@]}" hdd /dev/disk/by-id/ata-ST500LM012_HN-M500MBB_S2TRJ9CCB11080
 zfs create ssd/root
 zfs create ssd/home
-zfs create ssd/Documents
 zfs create -V 20G ssd/docker
 mount.zfs ssd/root /mnt
 mount.zfs ssd/home /mnt/home
-mount.zfs ssd/Documents /mnt/home/pineman/Documents
 mkfs.ext4 /dev/zvol/ssd/docker
 mount /dev/zvol/ssd/docker /var/lib/docker
 tail -1 /etc/mtab | tee -a /etc/fstab

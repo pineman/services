@@ -10,7 +10,7 @@ x-common: &common
 services:
   ingress:
     <<: *common
-    image: traefik:2.5.6
+    image: traefik:2.6.1
     container_name: ingress
     ports:
     - "80:80"
@@ -34,10 +34,10 @@ services:
 
   homepage:
     <<: *common
-    image: registry.gitlab.com/pineman/services/homepage:1.0.3
+    image: registry.gitlab.com/pineman/services/homepage:1.0.5
     container_name: homepage
     ports:
-    - "8081:80"
+    - "8081:8081"
     labels:
     - "traefik.http.routers.homepage.rule=Host(`www.pineman.eu`) || Host(`pineman.eu`)"
     - "traefik.http.routers.homepage.entrypoints=https"

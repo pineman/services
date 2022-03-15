@@ -1,9 +1,21 @@
 #!/bin/bash
 set -euxo pipefail
 
-start() {
+pull() {
   docker-compose pull -q
-  docker-compose up -d ingress homepage abra factorio transmission grafana
+}
+
+start() {
+
+  docker-compose up -d traefik homepage abra factorio transmission grafana
+}
+
+build() {
+  docker-compose --profile push build --no-cache $1 $1-latest
+}
+
+push() {
+  docker-compose --profile push push $1 $1-latest
 }
 
 "$@"

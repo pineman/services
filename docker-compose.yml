@@ -1,6 +1,8 @@
 x-common: &common
   restart: unless-stopped
   init: true
+  # Due to various pitfalls such as https://github.com/moby/moby/issues/22054,
+  # and performance.
   network_mode: host
   logging:
     driver: journald
@@ -8,29 +10,24 @@ x-common: &common
       tag: "{{.Name}}@{{.ImageID}}"
 
 services:
-  ingress:
+  traefik: &traefik
     <<: *common
-    image: traefik:2.6.1
-    container_name: ingress
+    build:
+      context: traefik
+      cache_from: ["registry.gitlab.com/pineman/services/traefik:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: registry.gitlab.com/pineman/services/traefik:1.0.0
+    container_name: traefik
     ports:
     - "80:80"
     - "443:443"
     - "8080:8080"
-    command:
-    - "--api.insecure=true"
-    - "--providers.docker=true"
-    - "--accesslog=true"
-    - "--entrypoints.http.address=:80"
-    - "--entrypoints.https.address=:443"
-    - "--entrypoints.http.http.redirections.entrypoint.to=https"
-    - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
-    - "--certificatesresolvers.pineman.acme.httpchallenge=true"
-    - "--certificatesresolvers.pineman.acme.httpchallenge.entrypoint=http"
-    - "--certificatesresolvers.pineman.acme.email=joao.castropinheiro@gmail.com"
-    - "--certificatesresolvers.pineman.acme.storage=/acme/acme.json"
     volumes:
-    - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    - /home/pineman/services/ingress/acme:/acme
+    - /home/pineman/services/traefik/acme:/acme
+  traefik-latest:
+    <<: *traefik
+    image: registry.gitlab.com/pineman/services/traefik:latest
+    profiles: ["push"]
 
   homepage:
     <<: *common
@@ -38,23 +35,6 @@ services:
     container_name: homepage
     ports:
     - "8081:8081"
-    labels:
-    - "traefik.http.routers.homepage.rule=Host(`www.pineman.eu`) || Host(`pineman.eu`)"
-    - "traefik.http.routers.homepage.entrypoints=https"
-    - "traefik.http.routers.homepage.tls=true"
-    - "traefik.http.routers.homepage.tls.certresolver=pineman"
-
-  #ju:
-  #  <<: *common
-  #  image: registry.gitlab.com/pineman/services/ju:1.0.1
-  #  container_name: ju
-  #  ports:
-  #  - "8082:80"
-  #  labels:
-  #  - "traefik.http.routers.ju.rule=Host(`bebe.pineman.eu`)"
-  #  - "traefik.http.routers.ju.entrypoints=https"
-  #  - "traefik.http.routers.ju.tls=true"
-  #  - "traefik.http.routers.ju.tls.certresolver=pineman"
 
   abra:
     <<: *common
@@ -62,11 +42,13 @@ services:
     container_name: abra
     ports:
     - "2272:2272"
-    labels:
-    - "traefik.http.routers.abra.rule=Host(`abra.pineman.eu`)"
-    - "traefik.http.routers.abra.entrypoints=https"
-    - "traefik.http.routers.abra.tls=true"
-    - "traefik.http.routers.abra.tls.certresolver=pineman"
+
+  #ju:
+  #  <<: *common
+  #  image: registry.gitlab.com/pineman/services/ju:1.0.1
+  #  container_name: ju
+  #  ports:
+  #  - "8082:8082"
 
   #paper: &paper
   #  <<: *common

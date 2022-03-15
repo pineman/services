@@ -31,7 +31,7 @@ services:
 
   homepage:
     <<: *common
-    image: registry.gitlab.com/pineman/services/homepage:1.0.5
+    image: registry.gitlab.com/pineman/services/homepage:1.0.6
     container_name: homepage
     ports:
     - "8081:8081"

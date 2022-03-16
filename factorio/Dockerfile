@@ -4,4 +4,4 @@ RUN pacman -U /factorio-headless-1.1.48-1-x86_64.pkg.tar.zst --noconfirm
 WORKDIR /root
 VOLUME /root
 COPY entrypoint.sh .
-ENTRYPOINT ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]

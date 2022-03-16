@@ -16,7 +16,7 @@ services:
       context: traefik
       cache_from: ["registry.gitlab.com/pineman/services/traefik:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/traefik:1.0.0
+    image: registry.gitlab.com/pineman/services/traefik:1.0.1
     container_name: traefik
     ports:
     - "80:80"
@@ -43,12 +43,12 @@ services:
     ports:
     - "2272:2272"
 
-  #ju:
-  #  <<: *common
-  #  image: registry.gitlab.com/pineman/services/ju:1.0.1
-  #  container_name: ju
-  #  ports:
-  #  - "8082:8082"
+  ju:
+    <<: *common
+    image: registry.gitlab.com/pineman/services/ju:1.0.4
+    container_name: ju
+    ports:
+    - "8082:8082"
 
   #paper: &paper
   #  <<: *common

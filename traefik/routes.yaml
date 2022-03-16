@@ -13,6 +13,12 @@ http:
       service: abra
       tls:
         certResolver: pinecone
+    ju:
+      rule: "Host(`bebe.pineman.eu`)"
+      entryPoints: https
+      service: ju
+      tls:
+        certResolver: pinecone
   services:
     homepage:
       loadBalancer:
@@ -22,3 +28,7 @@ http:
       loadBalancer:
         servers:
         - url: "http://localhost:2272"
+    ju:
+      loadBalancer:
+        servers:
+        - url: "http://localhost:8082"

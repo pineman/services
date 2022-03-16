@@ -6,8 +6,7 @@ pull() {
 }
 
 start() {
-
-  docker-compose up -d traefik homepage abra factorio transmission grafana
+  docker-compose up -d traefik homepage abra ju factorio transmission grafana
 }
 
 build() {

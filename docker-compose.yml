@@ -45,7 +45,7 @@ services:
 
   ju:
     <<: *common
-    image: registry.gitlab.com/pineman/services/ju:1.0.4
+    image: registry.gitlab.com/pineman/services/ju:1.0.5
     container_name: ju
     ports:
     - "8082:8082"

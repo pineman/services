@@ -8,7 +8,7 @@ build() {
 
 start() {
   docker-compose pull -q
-  docker-compose up -d traefik homepage abra ju factorio transmission grafana paper
+  docker-compose up -d paper factorio
 }
 
 "$@"

@@ -1,5 +1,0 @@
-[Service]
-ExecStart=/home/pineman/services/scripts/backup.sh
-
-[Install]
-WantedBy=multi-user.target

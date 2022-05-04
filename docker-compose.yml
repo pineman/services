@@ -7,49 +7,9 @@ x-common: &common
   logging:
     driver: journald
     options:
-      tag: "{{.Name}}@{{.ImageID}}"
+      tag: "{{.Name}}"
 
 services:
-  traefik: &traefik
-    <<: *common
-    build:
-      context: traefik
-      cache_from: ["registry.gitlab.com/pineman/services/traefik:latest"]
-      args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/traefik:1.0.1
-    container_name: traefik
-    ports:
-    - "80:80"
-    - "443:443"
-    - "8080:8080"
-    volumes:
-    - /home/pineman/services/traefik/acme:/acme
-  traefik-latest:
-    <<: *traefik
-    image: registry.gitlab.com/pineman/services/traefik:latest
-    profiles: ["push"]
-
-  homepage:
-    <<: *common
-    image: registry.gitlab.com/pineman/services/homepage:1.0.6
-    container_name: homepage
-    ports:
-    - "8081:8081"
-
-  abra:
-    <<: *common
-    image: registry.gitlab.com/pineman/services/abra:1.0.0-1
-    container_name: abra
-    ports:
-    - "2272:2272"
-
-  ju:
-    <<: *common
-    image: registry.gitlab.com/pineman/services/ju:1.0.5
-    container_name: ju
-    ports:
-    - "8082:8082"
-
   paper: &paper
     <<: *common
     build:
@@ -84,29 +44,3 @@ services:
     image: registry.gitlab.com/pineman/services/factorio:latest
     profiles: ["push"]
 
-  transmission:
-    <<: *common
-    image: ghcr.io/linuxserver/transmission:version-3.00-r2
-    container_name: transmission
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Lisbon
-    ports:
-      - "9091:9091"
-      - "51413:51413"
-      - "51413:51413/udp"
-    volumes:
-      - transmission-config:/config
-      - /home/pineman/Downloads:/downloads
-
-  grafana:
-    <<: *common
-    image: grafana/grafana:8.0.4-ubuntu
-    container_name: grafana
-    ports:
-    - "3000:3000"
-
-volumes:
-  transmission-config:
-    name: transmission-config

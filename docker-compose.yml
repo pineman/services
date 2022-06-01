@@ -1,9 +1,6 @@
 x-common: &common
   restart: unless-stopped
   init: true
-  # Due to various pitfalls such as https://github.com/moby/moby/issues/22054,
-  # and performance.
-  network_mode: host
   logging:
     driver: journald
     options:
@@ -18,6 +15,7 @@ services:
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/paper:1.18.2-1
     container_name: paper
+    hostname: paper
     ports:
     - "25565:25565"
     volumes:
@@ -35,6 +33,7 @@ services:
       args: ["BUILDKIT_INLINE_CACHE=1"]
     image: registry.gitlab.com/pineman/services/factorio:1.1.48-3
     container_name: factorio
+    hostname: factorio
     ports:
     - "34197:34197/udp"
     volumes:
@@ -44,3 +43,21 @@ services:
     image: registry.gitlab.com/pineman/services/factorio:latest
     profiles: ["push"]
 
+  satisfactory: &satisfactory
+    <<: *common
+    image: wolveix/satisfactory-server:v1.2.4
+    container_name: satisfactory
+    hostname: satisfactory
+    ports:
+    - "7777:7777/udp"
+    - "15000:15000/udp"
+    - "15777:15777/udp"
+    volumes:
+    - ./satisfactory:/config
+    environment:
+    - MAXPLAYERS=2
+    - PGID=1000
+    - PUID=1000
+    - AUTOSAVEINTERVAL=60
+    - AUTOSAVENUM=10
+    - AUTOPAUSE=false

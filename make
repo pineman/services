@@ -8,7 +8,7 @@ build() {
 
 start() {
   docker-compose pull -q
-  docker-compose up -d paper factorio
+  docker-compose up -d $@
 }
 
 server-create() {

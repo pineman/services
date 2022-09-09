@@ -13,13 +13,13 @@ services:
       context: paper
       cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/paper:1.18.2-1
+    image: registry.gitlab.com/pineman/services/paper:1.19.2-1
     container_name: paper
     hostname: paper
     ports:
     - "25565:25565"
     volumes:
-    - /home/pineman/services/paper/server_mount:/paper
+    - ./paper/server_mount:/paper
   paper-latest:
     <<: *paper
     image: registry.gitlab.com/pineman/services/paper:latest
@@ -37,7 +37,7 @@ services:
     ports:
     - "34197:34197/udp"
     volumes:
-    - /home/pineman/services/factorio/server_mount:/root/.factorio
+    - ./factorio/server_mount:/root/.factorio
   factorio-latest:
     <<: *factorio
     image: registry.gitlab.com/pineman/services/factorio:latest

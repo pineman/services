@@ -25,6 +25,24 @@ services:
     image: ghcr.io/pineman/services/paper:latest
     profiles: ["push"]
 
+  paper-primos: &paper-primos
+    <<: *common
+    build:
+      context: paper-primos
+      cache_from: ["ghcr.io/pineman/services/paper-primos:latest"]
+      args: ["BUILDKIT_INLINE_CACHE=1"]
+    image: ghcr.io/pineman/services/paper-primos:1.21.3-4
+    container_name: paper-primos
+    hostname: paper-primos
+    ports:
+    - "25565:25565"
+    volumes:
+    - ./paper-primos/server_mount:/paper-primos
+  paper-primos-latest:
+    <<: *paper-primos
+    image: ghcr.io/pineman/services/paper-primos:latest
+    profiles: ["push"]
+
   factorio: &factorio
     <<: *common
     build:

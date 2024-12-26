@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 ARG DEBIAN_FRONTEND=noninteractive
 ADD ./install_clean /usr/bin
 RUN install_clean locales apt-transport-https ca-certificates curl lsb-release gnupg

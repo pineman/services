@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-NAME=su
+NAME=services
 IP=$(hcloud server list | grep $NAME | awk '{ print $4 }' || true)
 if [[ -z $IP ]]; then
-  hcloud server create --name $NAME --type cx11 --image docker-ce --ssh-key pineman --location nbg1
+  hcloud server create --name $NAME --type cx22 --image docker-ce --ssh-key pineman --location nbg1
 fi
 IP=$(hcloud server list | grep $NAME | awk '{ print $4 }' || true)
 while :; do

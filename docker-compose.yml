@@ -11,9 +11,9 @@ services:
     <<: *common
     build:
       context: paper
-      cache_from: ["registry.gitlab.com/pineman/services/paper:latest"]
+      cache_from: ["ghcr.io/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/paper:1.19.2-1
+    image: ghcr.io/pineman/services/paper:1.19.2-1
     container_name: paper
     hostname: paper
     ports:
@@ -22,16 +22,16 @@ services:
     - ./paper/server_mount:/paper
   paper-latest:
     <<: *paper
-    image: registry.gitlab.com/pineman/services/paper:latest
+    image: ghcr.io/pineman/services/paper:latest
     profiles: ["push"]
 
   factorio: &factorio
     <<: *common
     build:
       context: factorio
-      cache_from: ["registry.gitlab.com/pineman/services/factorio:latest"]
+      cache_from: ["ghcr.io/pineman/services/factorio:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: registry.gitlab.com/pineman/services/factorio:1.1.48-3
+    image: ghcr.io/pineman/services/factorio:1.1.48-3
     container_name: factorio
     hostname: factorio
     ports:
@@ -40,7 +40,7 @@ services:
     - ./factorio/server_mount:/root/.factorio
   factorio-latest:
     <<: *factorio
-    image: registry.gitlab.com/pineman/services/factorio:latest
+    image: ghcr.io/pineman/services/factorio:latest
     profiles: ["push"]
 
   satisfactory: &satisfactory

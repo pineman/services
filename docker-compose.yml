@@ -1,10 +1,10 @@
 x-common: &common
   restart: unless-stopped
   init: true
-  logging:
-    driver: journald
-    options:
-      tag: "{{.Name}}"
+  #logging:
+  #  driver: journald
+  #  options:
+  #    tag: "{{.Name}}"
 
 services:
   paper: &paper
@@ -13,7 +13,7 @@ services:
       context: paper
       cache_from: ["ghcr.io/pineman/services/paper:latest"]
       args: ["BUILDKIT_INLINE_CACHE=1"]
-    image: ghcr.io/pineman/services/paper:1.19.2-1
+    image: ghcr.io/pineman/services/paper:1.21.8-1
     container_name: paper
     hostname: paper
     ports:

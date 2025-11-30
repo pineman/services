@@ -1,0 +1,13 @@
+[Unit]
+Description=Run backup minecraft at 4am
+Requires=backup-minecraft.service
+
+[Timer]
+# Run daily at 4 AM
+OnCalendar=*-*-* 04:00:00
+# If the machine is off at 4 AM, run immediately after boot
+Persistent=true
+Unit=backup-minecraft.service
+
+[Install]
+WantedBy=timers.target

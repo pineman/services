@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Backup for minecraft
+Wants=daily-backup.timer
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/root/backup-minecraft.sh
+
+[Install]
+WantedBy=multi-user.target

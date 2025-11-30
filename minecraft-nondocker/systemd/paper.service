@@ -1,0 +1,18 @@
+[Unit]
+Description=Paper Server in tmux
+After=network.target
+
+[Service]
+Type=forking
+User=root
+Group=root
+WorkingDirectory=/root/paper
+ExecStart=/usr/bin/tmux new-session -d -s "paper" "java -jar paper-1.21.9-47.jar"
+ExecStop=/usr/bin/tmux send-keys -t "paper" "stop"
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+Environment="TERM=xterm-256color"
+
+[Install]
+WantedBy=multi-user.target

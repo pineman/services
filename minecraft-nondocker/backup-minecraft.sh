@@ -8,6 +8,12 @@ KEEP_COUNT=2
 backup_server() {
   SESSION=$1
   SERVER_DIR=$2
+
+  if ! tmux has-session -t "$SESSION" 2>/dev/null; then
+    echo "Session $SESSION not found, skipping backup."
+    return
+  fi
+
   FILENAME="${SESSION}-$(date +%F_%H.%M)"
   tmux send-keys -t "$SESSION" save-off C-m save-all C-m
   sleep 10s
